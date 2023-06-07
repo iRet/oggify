@@ -2,16 +2,24 @@
 
 set -e
 
-fname="${4} - ${2}.ogg"
+fname="${5} - ${2}.ogg"
 fname="${fname//\//-}"
+
+curl -s ${4//'\n'/' '} > cover.jpeg
+./ogg-image-blobber cover.jpeg
+
 cat > "${fname}"
 {
 	echo "SPOTIFY_ID=${1}"
 	echo "TITLE=${2//'\n'/' '}"
 	echo "ALBUM=${3//'\n'/' '}"
-	shift 3
+	echo "METADATA_BLOCK_PICTURE=$(cat cover.base64)"
+	shift 4
 	for artist in "$@"; do
 		echo "ARTIST=${artist//'\n'/' '}"
 	done
 } | vorbiscomment -a "${fname}"
 echo "${fname}"
+
+rm -f cover.jpeg
+rm -f cover.base64
