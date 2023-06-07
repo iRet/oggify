@@ -31,9 +31,11 @@ oggify "spotify-premium-user" "spotify-premium-password" "helper_script" < link_
 ```
 In this form `helper_script` is invoked for each new track:
 ```
-helper_script "spotify_id" "title" <album> "artist1" ["artist2"...] < ogg_stream
+helper_script "spotify_id" "title" <album> "cover_art_url" "artist1" ["artist2"...] < ogg_stream
 ```
 The script `tag_ogg` in the source tree can be used to automatically add the track information (spotify ID, title, album, artists) as vorbis comments.
+
+The script uses [ogg-image-blobber](https://github.com/twopoint71/ogg-image-blobber) for cover art encoding.
 
 ### Converting to MP3 (🤮)
 **Don't do that, please.** You will just lose quality. If you want to do it anyway:

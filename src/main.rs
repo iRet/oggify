@@ -222,9 +222,15 @@ fn main() {
                                 .expect("Cannot get album metadata");
                             let mut cmd = Command::new(args[3].to_owned());
                             cmd.stdin(Stdio::piped());
+
+                            let mut cover_url: String = "http://i.scdn.co/image/".to_owned();
+                            cover_url.push_str(&album.covers[0].to_base16());
+                            info!("Album Cover {}", cover_url);
+
                             cmd.arg(id.to_base62())
                                 .arg(track.name)
                                 .arg(album.name)
+                                .arg(cover_url)
                                 .args(artists_strs.iter());
                             let mut child = cmd.spawn().expect("Could not run helper program");
                             let pipe = child.stdin.as_mut().expect("Could not open helper stdin");
@@ -304,11 +310,16 @@ fn main() {
                                 info!("Filename: {}", fname);
                             }
                         } else {
+                            let mut cover_url: String = "http://i.scdn.co/image/".to_owned();
+                            cover_url.push_str(&show.covers[1].to_base16());
+                            info!("Show Cover {}", cover_url);
+
                             let mut cmd = Command::new(args[3].to_owned());
                             cmd.stdin(Stdio::piped());
                             cmd.arg(id.to_base62())
                                 .arg(episode.name)
                                 .arg(show.name)
+                                .arg(cover_url)
                                 .arg(show.publisher);
                             let mut child = cmd.spawn().expect("Could not run helper program");
                             let pipe = child.stdin.as_mut().expect("Could not open helper stdin");
