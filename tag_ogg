@@ -6,7 +6,7 @@ fname="${5} - ${2}.ogg"
 fname="${fname//\//-}"
 
 curl -s ${4//'\n'/' '} > cover.jpeg
-./ogg-image-blobber cover.jpeg
+$(dirname "$0")/ogg-image-blobber cover.jpeg
 
 cat > "${fname}"
 {
